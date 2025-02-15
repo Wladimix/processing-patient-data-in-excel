@@ -6,6 +6,7 @@
     require 'App/Excel.php';
     require 'App/Files.php';
     require 'App/Helper.php';
+    require 'App/HTML.php';
     require 'vendor/autoload.php';
 ?>
 
@@ -29,8 +30,12 @@
         $FCs = $patients->getGroupedIdsAndFCs();
         $phones = $patients->getGroupedIdsAndPhones();
         $payments = $paymentsMade->getGroupedIdsAndPayments();
+
         $totalInvoices = [];
         $totalPayments = [];
+
+        $totalInvoicesTable = null;
+        $totalPaymentsTable = null;
 
         if (!empty($finalePrices) && !empty($FCs)) {
             $totalInvoices = Excel::generateAndGetTotalInvoices($finalePrices, $FCs);
@@ -39,13 +44,6 @@
         if (!empty($FCs) && !empty($phones) && !empty($payments)) {
             $totalPayments = Excel::generateAndGetPayments($FCs, $phones, $payments);
         }
-
-        var_dump($finalePrices);
-        var_dump($FCs);
-        var_dump($phones);
-        var_dump($payments);
-        var_dump($totalInvoices);
-        var_dump($totalPayments);
     ?>
 
     <h2>Загрузка файлов</h2>
@@ -55,6 +53,9 @@
         <?= Constants::PAYMENTS_MADE ?>: <input type="file" name="uploads[<?= Constants::PAYMENTS_MADE_KEY ?>]" /><br />
         <input type="submit" value="Загрузить" />
     </form>
+
+    <?= HTML::buildTotalInvoicesTable($totalInvoices); ?>
+    <?= HTML::buildTotalPaymentsTable($totalPayments); ?>
 
 </body>
 </html>
