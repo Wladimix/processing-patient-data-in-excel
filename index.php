@@ -1,6 +1,11 @@
 <?php
-    require_once './App/Constants.php';
-    require_once './App/Files.php';
+    require 'App/Constants.php';
+    require 'App/Entities/InvoicesIssued.php';
+    require 'App/Entities/Patients.php';
+    require 'App/Excel.php';
+    require 'App/Files.php';
+    require 'App/Helper.php';
+    require 'vendor/autoload.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,11 +18,8 @@
 <body>
 
     <?php
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
-
         Files::uploadFiles();
+        Excel::generateTotalInvoices();
     ?>
 
     <h2>Загрузка файлов</h2>
