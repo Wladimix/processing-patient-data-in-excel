@@ -17,7 +17,7 @@ class InvoicesIssued
 
     public function getGroupedIdsAndFinalePrices()
     {
-        $this->filterColumnsByIdAndFinalePrices();
+        $this->filterColumnsByIdAndFinalePrice();
 
         $groupedData = [];
 
@@ -34,10 +34,12 @@ class InvoicesIssued
         return $groupedData;
     }
 
-    private function filterColumnsByIdAndFinalePrices()
+    private function filterColumnsByIdAndFinalePrice()
     {
-        $this->idsColumn = Helper::getColumnData(Constants::INVOICES_ISSUED_TABLE_CELL_ID, $this->invoicesIssuedTable);
-        $this->finalePricesColumn = Helper::getColumnData(Constants::INVOICES_ISSUED_TABLE_CELL_FINAL_PRICE, $this->invoicesIssuedTable);
+        if (!empty($this->invoicesIssuedTable)) {
+            $this->idsColumn = Helper::getColumnData(Constants::INVOICES_ISSUED_TABLE_CELL_ID, $this->invoicesIssuedTable);
+            $this->finalePricesColumn = Helper::getColumnData(Constants::INVOICES_ISSUED_TABLE_CELL_FINAL_PRICE, $this->invoicesIssuedTable);
+        }
     }
 
 }

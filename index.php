@@ -2,6 +2,7 @@
     require 'App/Constants.php';
     require 'App/Entities/InvoicesIssued.php';
     require 'App/Entities/Patients.php';
+    require 'App/Entities/PaymentsMade.php';
     require 'App/Excel.php';
     require 'App/Files.php';
     require 'App/Helper.php';
@@ -19,7 +20,32 @@
 
     <?php
         Files::uploadFiles();
-        Excel::generateTotalInvoices();
+
+        $invoicesIssued = new InvoicesIssued();
+        $patients = new Patients();
+        $paymentsMade = new PaymentsMade();
+
+        $finalePrices = $invoicesIssued->getGroupedIdsAndFinalePrices();
+        $FCs = $patients->getGroupedIdsAndFCs();
+        $phones = $patients->getGroupedIdsAndPhones();
+        $payments = $paymentsMade->getGroupedIdsAndPayments();
+        $totalInvoices = [];
+        $totalPayments = [];
+
+        if (!empty($finalePrices) && !empty($FCs)) {
+            $totalInvoices = Excel::generateAndGetTotalInvoices($finalePrices, $FCs);
+        }
+
+        if (!empty($FCs) && !empty($phones) && !empty($payments)) {
+            $totalPayments = Excel::generateAndGetPayments($FCs, $phones, $payments);
+        }
+
+        var_dump($finalePrices);
+        var_dump($FCs);
+        var_dump($phones);
+        var_dump($payments);
+        var_dump($totalInvoices);
+        var_dump($totalPayments);
     ?>
 
     <h2>Загрузка файлов</h2>

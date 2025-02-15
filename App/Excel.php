@@ -43,14 +43,8 @@ class Excel
         return $data;
     }
 
-    public static function generateTotalInvoices()
+    public static function generateAndGetTotalInvoices($finalePrices, $FCs)
     {
-        $invoicesIssued = new InvoicesIssued();
-        $patients = new Patients();
-
-        $finalePrices = $invoicesIssued->getGroupedIdsAndFinalePrices();
-        $FCs = $patients->getGroupedIdsAndFCs();
-
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->getColumnDimension('A')->setWidth(20);
@@ -82,6 +76,46 @@ class Excel
 
         $writer = new Xlsx($spreadsheet);
         $writer->save(Files::getDocumentsPath() . 'Сумма всех счетов пациентов.xlsx');
+
+        return $dataForExcel;
+    }
+
+    public static function generateAndGetPayments($FCs, $phones, $payments)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->getColumnDimension('A')->setWidth(40);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        $sheet->getColumnDimension('C')->setWidth(25);
+        $sheet->getStyle('A1:C1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+            ]
+        ]);
+
+        $dataForExcel = [
+            ['ФИО', 'Телефон', 'Совершенные платежи'],
+        ];
+
+        foreach ($FCs as $key => $FC) {
+            $dataForExcel[] = [$FC, $phones[$key], $payments[$key]];
+        }
+
+        foreach ($dataForExcel as $rowIndex => $rowData) {
+
+            foreach ($rowData as $colIndex => $cellValue) {
+
+                $columnLetter = Coordinate::stringFromColumnIndex($colIndex + 1);
+                $sheet->setCellValue($columnLetter . ($rowIndex + 1), $cellValue);
+
+            }
+
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save(Files::getDocumentsPath() . 'Сумма совершённых платежей пациентов.xlsx');
+
+        return $dataForExcel;
     }
 
 }

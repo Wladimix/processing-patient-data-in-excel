@@ -15,8 +15,11 @@ class Constants
     const PATIENTS_TABLE_CELL_SURNAME = 'Фамилия';
     const PATIENTS_TABLE_CELL_NAME = 'Имя';
     const PATIENTS_TABLE_CELL_PATRONYMIC = 'Отчество';
+    const PATIENTS_TABLE_CELL_PHONE = 'Телефон';
 
     const PAYMENTS_MADE = 'Совершённые платежи';
     const PAYMENTS_MADE_KEY = 'payments_made';
     const PAYMENTS_MADE_FILE_NAME = 'Совершённые платежи.xlsx';
+    const PAYMENTS_MADE_TABLE_CELL_ID = 'ИД';
+    const PAYMENTS_MADE_TABLE_CELL_PAYMENTS = 'Платежи';
 }

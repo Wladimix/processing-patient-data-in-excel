@@ -9,6 +9,7 @@ class Patients
     private $surnamesColumn = [];
     private $namesColumn = [];
     private $patronymicsColumn = [];
+    private $phonesColumn = [];
 
     public function __construct()
     {
@@ -30,12 +31,35 @@ class Patients
         return $groupedData;
     }
 
+    public function getGroupedIdsAndPhones()
+    {
+        $this->filterColumnsByIdAndPhone();
+
+        $groupedData = [];
+
+        foreach($this->idsColumn as $key => $id) {
+            $groupedData[$id] = $this->phonesColumn[$key];
+        }
+
+        return $groupedData;
+    }
+
     private function filterColumnsByIdAndFC()
     {
-        $this->idsColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_ID, $this->patientsTable);
-        $this->surnamesColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_SURNAME, $this->patientsTable);
-        $this->namesColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_NAME, $this->patientsTable);
-        $this->patronymicsColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_PATRONYMIC, $this->patientsTable);
+        if (!empty($this->patientsTable)) {
+            $this->idsColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_ID, $this->patientsTable);
+            $this->surnamesColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_SURNAME, $this->patientsTable);
+            $this->namesColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_NAME, $this->patientsTable);
+            $this->patronymicsColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_PATRONYMIC, $this->patientsTable);
+        }
+    }
+
+    private function filterColumnsByIdAndPhone()
+    {
+        if (!empty($this->patientsTable)) {
+            $this->idsColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_ID, $this->patientsTable);
+            $this->phonesColumn = Helper::getColumnData(Constants::PATIENTS_TABLE_CELL_PHONE, $this->patientsTable);
+        }
     }
 
 }
