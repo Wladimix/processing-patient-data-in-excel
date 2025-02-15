@@ -15,6 +15,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>Обработка данных пациентов</title>
 </head>
 <body>
@@ -34,28 +36,84 @@
         $totalInvoices = [];
         $totalPayments = [];
 
-        $totalInvoicesTable = null;
-        $totalPaymentsTable = null;
-
-        if (!empty($finalePrices) && !empty($FCs)) {
+        $totalInvoicesCondition = !empty($finalePrices) && !empty($FCs);
+        if ($totalInvoicesCondition) {
             $totalInvoices = Excel::generateAndGetTotalInvoices($finalePrices, $FCs);
         }
 
-        if (!empty($FCs) && !empty($phones) && !empty($payments)) {
+        $totalPaymentsCondition = !empty($FCs) && !empty($phones) && !empty($payments);
+        if ($totalPaymentsCondition) {
             $totalPayments = Excel::generateAndGetPayments($FCs, $phones, $payments);
         }
     ?>
 
-    <h2>Загрузка файлов</h2>
-    <form method="post" enctype="multipart/form-data">
-        <?= Constants::INVOICES_ISSUED ?>: <input type="file" name="uploads[<?= Constants::INVOICES_ISSUED_KEY ?>]" /><br />
-        <?= Constants::PATIENTS ?>: <input type="file" name="uploads[<?= Constants::PATIENTS_KEY ?>]" /><br />
-        <?= Constants::PAYMENTS_MADE ?>: <input type="file" name="uploads[<?= Constants::PAYMENTS_MADE_KEY ?>]" /><br />
-        <input type="submit" value="Загрузить" />
-    </form>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
 
-    <?= HTML::buildTotalInvoicesTable($totalInvoices); ?>
-    <?= HTML::buildTotalPaymentsTable($totalPayments); ?>
+                <h5 class="card-title">Загрузка документов</h5>
+
+                <? if (!$totalInvoicesCondition && !$totalPaymentsCondition): ?>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Загрузите документы, чтобы отобразить таблицы с отчётами</h6>
+                <? endif; ?>
+
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="formFile1" class="form-label"><?= Constants::INVOICES_ISSUED ?></label>
+                        <input class="form-control" type="file" id="formFile1" name="uploads[<?= Constants::INVOICES_ISSUED_KEY ?>]" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile2" class="form-label"><?= Constants::PATIENTS ?></label>
+                        <input class="form-control" type="file" id="formFile2" name="uploads[<?= Constants::PATIENTS_KEY ?>]" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile3" class="form-label"><?= Constants::PAYMENTS_MADE ?></label>
+                        <input class="form-control" type="file" id="formFile3" name="uploads[<?= Constants::PAYMENTS_MADE_KEY ?>]" />
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Загрузить</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    <?php if ($totalInvoicesCondition): ?>
+                        Сумма всех счетов
+                    <?php else: ?>
+                        Загрузите выставленные счета и список пациентов
+                    <?php endif; ?>
+                </h5>
+
+                <?php
+                    if ($totalInvoicesCondition) {
+                        echo HTML::buildTotalInvoicesTable($totalInvoices);
+                    }
+                ?>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    <?php if ($totalPaymentsCondition): ?>
+                        Сумма совершённых платежей
+                    <?php else: ?>
+                        Загрузите совершённые платежи и список пациентов
+                    <?php endif; ?>
+                </h5>
+
+                <?php
+                    if ($totalPaymentsCondition) {
+                        echo HTML::buildTotalPaymentsTable($totalPayments);
+                    }
+                ?>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>

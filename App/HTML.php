@@ -5,7 +5,7 @@ class HTML
 
     public static function buildTotalInvoicesTable($totalInvoices)
     {
-        $table = '<table>';
+        $table = '<table class="table table-striped mt-4">';
 
         foreach ($totalInvoices as $row) {
             $table .= '<tr>';
@@ -21,7 +21,7 @@ class HTML
 
     public static function buildTotalPaymentsTable($totalPayments)
     {
-        $table = '<table>';
+        $table = '<table class="table table-striped mt-4">';
 
         foreach ($totalPayments as $row) {
             $table .= '<tr>';
