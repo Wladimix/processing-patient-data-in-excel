@@ -60,7 +60,9 @@ class Excel
         ];
 
         foreach ($finalePrices as $key => $finalePrice) {
-            $dataForExcel[] = [$finalePrice, $FCs[$key]];
+            if (isset($FCs[$key])) {
+                $dataForExcel[] = [$finalePrice, $FCs[$key]];
+            }
         }
 
         foreach ($dataForExcel as $rowIndex => $rowData) {
@@ -98,7 +100,9 @@ class Excel
         ];
 
         foreach ($FCs as $key => $FC) {
-            $dataForExcel[] = [$FC, $phones[$key], $payments[$key]];
+            if (isset($phones[$key]) && isset($payments[$key])) {
+                $dataForExcel[] = [$FC, $phones[$key], $payments[$key]];
+            }
         }
 
         foreach ($dataForExcel as $rowIndex => $rowData) {

@@ -38,7 +38,8 @@ class Patients
         $groupedData = [];
 
         foreach($this->idsColumn as $key => $id) {
-            $groupedData[$id] = $this->phonesColumn[$key];
+            $groupedData[$id] = (string)$this->phonesColumn[$key];
+            $key;
         }
 
         return $groupedData;

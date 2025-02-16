@@ -59,15 +59,23 @@
 
                 <form method="post" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="formFile1" class="form-label"><?= Constants::INVOICES_ISSUED ?></label>
+                        <label for="formFile1" class="form-label">
+                            <?= Constants::INVOICES_ISSUED ?>
+                            <?php if (!empty($finalePrices)): ?><span> &#10004;</span> <?php endif; ?>
+                        </label>
                         <input class="form-control" type="file" id="formFile1" name="uploads[<?= Constants::INVOICES_ISSUED_KEY ?>]" />
                     </div>
                     <div class="mb-3">
-                        <label for="formFile2" class="form-label"><?= Constants::PATIENTS ?></label>
+                        <label for="formFile2" class="form-label">
+                            <?= Constants::PATIENTS ?>
+                            <?php if (!empty($FCs)): ?><span> &#10004;</span> <?php endif; ?>
+                        </label>
                         <input class="form-control" type="file" id="formFile2" name="uploads[<?= Constants::PATIENTS_KEY ?>]" />
                     </div>
                     <div class="mb-3">
-                        <label for="formFile3" class="form-label"><?= Constants::PAYMENTS_MADE ?></label>
+                        <label for="formFile3" class="form-label">
+                            <?= Constants::PAYMENTS_MADE ?>
+                            <?php if (!empty($payments)): ?><span> &#10004;</span> <?php endif; ?></label>
                         <input class="form-control" type="file" id="formFile3" name="uploads[<?= Constants::PAYMENTS_MADE_KEY ?>]" />
                     </div>
                     <button type="submit" class="btn btn-outline-primary">Загрузить</button>
