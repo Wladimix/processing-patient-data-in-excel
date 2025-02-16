@@ -53,9 +53,9 @@
 
                 <h5 class="card-title">Загрузка документов</h5>
 
-                <? if (!$totalInvoicesCondition && !$totalPaymentsCondition): ?>
+                <?php if (!$totalInvoicesCondition && !$totalPaymentsCondition): ?>
                     <h6 class="card-subtitle mb-2 text-body-secondary">Загрузите документы, чтобы отобразить таблицы с отчётами</h6>
-                <? endif; ?>
+                <?php endif; ?>
 
                 <form method="post" enctype="multipart/form-data">
                     <div class="mb-3">
