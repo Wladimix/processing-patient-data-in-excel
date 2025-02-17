@@ -22,4 +22,8 @@ class Constants
     const PAYMENTS_MADE_FILE_NAME = 'Совершённые платежи.xlsx';
     const PAYMENTS_MADE_TABLE_CELL_ID = 'ИД';
     const PAYMENTS_MADE_TABLE_CELL_PAYMENTS = 'Платежи';
+
+    const ERROR_INVOICES_ISSUED = 'в таблице со счетами в столбце итоговых цен присутствуют некорректные данные';
+    const ERROR_PAYMENTS_MADE = 'в таблице с совершёнными платежами в столбце платежей присутствуют некорректные данные';
+    const ERROR_PHONE_NUMBER = 'некорректный номер телефона';
 }

@@ -38,8 +38,10 @@ class Patients
         $groupedData = [];
 
         foreach($this->idsColumn as $key => $id) {
-            $groupedData[$id] = (string)$this->phonesColumn[$key];
-            $key;
+            $phoneNumber = $this->phonesColumn[$key];
+            $groupedData[$id] = Validation::checkPhone($phoneNumber)
+                ? $phoneNumber
+                : Constants::ERROR_PHONE_NUMBER;
         }
 
         return $groupedData;

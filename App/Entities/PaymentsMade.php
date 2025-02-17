@@ -23,6 +23,12 @@ class PaymentsMade
 
         foreach($this->paymentsColumn as $key => $payment) {
 
+            $priceValidation = Validation::checkPrice($payment, Constants::ERROR_PAYMENTS_MADE);
+            if (!$priceValidation['isCorrect']) {
+                $groupedData = ['error' => $priceValidation['errorMessage']];
+                break;
+            }
+
             $id = $this->idsColumn[$key];
 
             $groupedData[$id] = !isset($groupedData[$id])

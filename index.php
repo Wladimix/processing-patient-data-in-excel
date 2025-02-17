@@ -7,6 +7,7 @@
     require 'App/Files.php';
     require 'App/Helper.php';
     require 'App/HTML.php';
+    require 'App/Validation.php';
     require 'vendor/autoload.php';
 ?>
 

@@ -45,6 +45,12 @@ class Excel
 
     public static function generateAndGetTotalInvoices($finalePrices, $FCs)
     {
+        if (isset($finalePrices['error'])) {
+            return [
+                [$finalePrices['error']]
+            ];
+        }
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->getColumnDimension('A')->setWidth(20);
@@ -84,6 +90,12 @@ class Excel
 
     public static function generateAndGetPayments($FCs, $phones, $payments)
     {
+        if (isset($payments['error'])) {
+            return [
+                [$payments['error']]
+            ];
+        }
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->getColumnDimension('A')->setWidth(40);

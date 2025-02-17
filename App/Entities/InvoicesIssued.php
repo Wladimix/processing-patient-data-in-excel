@@ -23,6 +23,12 @@ class InvoicesIssued
 
         foreach($this->finalePricesColumn as $key => $finalePrice) {
 
+            $priceValidation = Validation::checkPrice($finalePrice, Constants::ERROR_INVOICES_ISSUED);
+            if (!$priceValidation['isCorrect']) {
+                $groupedData = ['error' => $priceValidation['errorMessage']];
+                break;
+            }
+
             $id = $this->idsColumn[$key];
 
             $groupedData[$id] = !isset($groupedData[$id])
